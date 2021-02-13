@@ -1,5 +1,5 @@
 import StripePayment from "./components/stripePayment/index";
-
+import PaypalPayment from "./components/paypaylPayment";
 // stripe imports
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
@@ -14,6 +14,10 @@ function App() {
       <Elements stripe={stripePromise}>
         <StripePayment />
       </Elements>
+
+      <div>
+        <PaypalPayment />
+      </div>
     </div>
   );
 }
