@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Plans from "./components/plan";
+import UserDetailsForm from "./components/userDetails/UserDetailsForm";
 import StripePayment from "./components/stripePayment/index";
 import PaypalPayment from "./components/paypaylPayment";
 // import SelectPaymentMethod from "./components/selectPaymentMethod/SelectPaymentMethod";
@@ -20,6 +21,7 @@ import {
   Button,
   Grid,
   Divider,
+  Box,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -37,6 +39,32 @@ const useStyles = makeStyles((theme) => ({
     },
     // float: "center",
   },
+  discount: {
+    marginRight: "6.2rem",
+    color: "#6c757d !important",
+  },
+
+  formDiv: {
+    // marginRight: "4rem",
+    marginLeft: "4.6rem",
+    display: "flex",
+  },
+  inputStyle: {
+    height: "25px",
+    borderRadius: 6,
+    backgroundColor: "#00000005",
+    // borderColor: "#00000024",
+    padding: "5px",
+    border: "0.5px solid #00000024",
+    // marginTop: "1px",
+  },
+  apllyBtn: {
+    cursor: "pointer",
+    marginLeft: "1rem",
+
+    // paddingTop: "-2px",
+    color: "#42ADD5",
+  },
 
   rightSide: {
     backgroundImage: `url(https:static-01.daraz.pk/p/5866ec828fccbea4ac5b214f673e29f4.jpg)`,
@@ -45,6 +73,24 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: "noRepeat",
     // height: "100vh",
     marginTop: "-2rem",
+  },
+  loginBtn: {
+    marginTop: "1.5rem",
+    marginRight: "1.5rem",
+    background: "linear-gradient(#42ADD5, #77D6EC)",
+    borderRadius: 26,
+    color: "#fff",
+    boxShadow: "0 5px 25px rgba(66, 173, 213, 0.25)",
+    padding: 10,
+    paddingTop: 12,
+    paddingBottom: 12,
+    width: 100,
+  },
+  homeBtn: {
+    color: "#fff",
+    marginTop: "1.5rem",
+    fontSize: "18px",
+    marginRight: "5px",
   },
 }));
 
@@ -63,6 +109,28 @@ function App() {
             <div style={{ textAlign: "center" }}>
               <Plans />
 
+              {/* Discount */}
+              <div className={classes.discount}>
+                <p>or enter your discount code here:</p>
+
+                <div className={classes.formDiv}>
+                  <input
+                    type="text"
+                    placeholder="Discount Code"
+                    className={classes.inputStyle}
+                    style={{}}
+                  />
+                  <Button className={classes.apllyBtn}>Apply</Button>
+                  {/*<p className={classes.apllyBtn}>Apply</p>*/}
+                </div>
+              </div>
+
+              {/* Discount */}
+
+              {/* User Details */}
+              <UserDetailsForm />
+              {/* User Details */}
+
               <h2 style={{ color: "#f8006f" }}>Select Your Payment Method</h2>
             </div>
 
@@ -71,8 +139,11 @@ function App() {
         </Grid>
 
         <Grid item xs={12} sm={12} md={8} className={classes.rightSide}>
-          <div style={{ height: "97.3vh", margin: 0 }}>
-            <h3>Hello</h3>
+          <div style={{ height: "97.3vh" }}>
+            <div style={{ float: "right" }}>
+              <Button className={classes.homeBtn}> Home</Button>
+              <Button className={classes.loginBtn}>Login</Button>
+            </div>
           </div>
         </Grid>
       </Grid>
