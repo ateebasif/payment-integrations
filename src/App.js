@@ -25,7 +25,8 @@ import {
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: "40%",
-    width: "25%",
+    // width: "25%",
+    width: "100%",
     [theme.breakpoints.down("md")]: {
       maxWidth: "60%",
       width: "40%",
@@ -36,22 +37,45 @@ const useStyles = makeStyles((theme) => ({
     },
     // float: "center",
   },
+
+  rightSide: {
+    backgroundImage: `url(https:static-01.daraz.pk/p/5866ec828fccbea4ac5b214f673e29f4.jpg)`,
+    backgroundSize: "cover",
+    borderRadius: "40px 0 0 40px",
+    backgroundRepeat: "noRepeat",
+    // height: "100vh",
+    marginTop: "-2rem",
+  },
 }));
 
 // stripe promise
 const stripePromise = loadStripe(process.env.REACT_APP_PUBLISHABLE_KEY);
 
 function App() {
+  const classes = useStyles();
+
   // console.log(".env", process.env.REACT_APP_PUBLISHABLE_KEY);
   return (
     <div style={{ paddingTop: "2rem" }}>
-      <Plans />
+      <Grid container>
+        <Grid item xs={12} sm={12} md={4}>
+          <div style={{ overflow: "scroll" }}>
+            <div style={{ textAlign: "center" }}>
+              <Plans />
 
-      <div style={{ textAlign: "center" }}>
-        <h2 style={{ color: "#f8006f" }}>Select Your Payment Method</h2>
-      </div>
+              <h2 style={{ color: "#f8006f" }}>Select Your Payment Method</h2>
+            </div>
 
-      <SelectPaymentMethod test={"hello"} />
+            <SelectPaymentMethod test={"hello"} />
+          </div>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={8} className={classes.rightSide}>
+          <div style={{ height: "97.3vh", margin: 0 }}>
+            <h3>Hello</h3>
+          </div>
+        </Grid>
+      </Grid>
 
       {/* 
       <div>
@@ -60,6 +84,20 @@ function App() {
     </div>
   );
 }
+
+//  root: {
+//     maxWidth: "40%",
+//     width: "25%",
+//     [theme.breakpoints.down("md")]: {
+//       maxWidth: "60%",
+//       width: "40%",
+//     },
+//     [theme.breakpoints.down("sm")]: {
+//       maxWidth: "100%",
+//       width: "90%",
+//     },
+//     // float: "center",
+//   },
 
 export default App;
 
