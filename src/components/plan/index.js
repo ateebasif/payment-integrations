@@ -7,6 +7,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import StarRateIcon from "@material-ui/icons/StarRate";
+import "./style.css";
 import {
   createMuiTheme,
   // makeStyles,
@@ -20,17 +21,6 @@ import {
   Grid,
   Divider,
 } from "@material-ui/core";
-
-// const theme = createMuiTheme({
-//   breakpoints: {
-//     values: {
-//       tablet: 640,
-//       laptop: 1024,
-//       desktop: 1280,
-//       some: 1000,
-//     },
-//   },
-// });
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -138,6 +128,12 @@ function Planindex() {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
 
+  const [selectedFirstPlan, setSelectedFirstPlan] = useState(false);
+  const [selectedSecondPlan, setSelectedSecondPlan] = useState(false);
+  const [selectedThirdPlan, setSelectedThirdPlan] = useState(false);
+
+  const [selectedPlan, setSelectedPlan] = useState(true);
+
   const [firstPlanBackground, seTfirstPlanBackground] = useState({
     background: "",
     color: "",
@@ -157,9 +153,11 @@ function Planindex() {
 
   const handleOnclick = () => {
     setExpanded(!expanded);
+    setSelectedPlan(true);
+    setSelectedFirstPlan(false);
+    setSelectedSecondPlan(false);
+    setSelectedThirdPlan(false);
   };
-
-  let clickStyle;
 
   const handleFirstPlan = () => {
     console.log("clicked first plan");
@@ -177,11 +175,15 @@ function Planindex() {
       background: "",
       color: "",
     });
+
+    setSelectedFirstPlan(true);
+    setSelectedPlan(false);
+    setExpanded(false);
   };
 
   const handleSecondtPlan = () => {
     console.log("clicked first plan");
-    const clickStyle = "#00C4E8";
+
     seTfirstPlanBackground({
       background: "",
       color: "",
@@ -195,6 +197,10 @@ function Planindex() {
       background: "#00C4E8",
       color: "#fff",
     });
+
+    setSelectedSecondPlan(true);
+    setSelectedPlan(false);
+    setExpanded(false);
   };
 
   const handleThirdPlan = () => {
@@ -211,6 +217,19 @@ function Planindex() {
       background: "#00C4E8",
       color: "#fff",
     });
+
+    setSelectedThirdPlan(true);
+    setSelectedPlan(false);
+    setExpanded(false);
+  };
+
+  const mountedStyle = {
+    animation: "inAnimation 250ms ease-in",
+    // animationFillMode: "forwards",
+  };
+  const unmountedStyle = {
+    animation: "outAnimation 270ms ease-out",
+    animationFillMode: "forwards",
   };
 
   return (
@@ -255,60 +274,75 @@ function Planindex() {
             <p>Cancel Anytime.</p>
           </div>
 
-          <div>
-            <div
-              onClick={handleFirstPlan}
-              className={classes.firstPlan}
-              style={{
-                // display: "flex",
-                // background: firstPlanBackground,
-                background: firstPlanBackground.background,
-                color: firstPlanBackground.color,
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  marginTop: "-10px",
-                }}
-              >
-                <StarRateIcon className={classes.startIcon} />
-                <p>BEST VALUE</p>
-              </div>
+          {selectedFirstPlan && (
+            <div style={selectedFirstPlan ? mountedStyle : unmountedStyle}>
+              {" "}
+              <FirstPlan />{" "}
+            </div>
+          )}
+          {selectedSecondPlan && (
+            <div style={selectedSecondPlan ? mountedStyle : unmountedStyle}>
+              <SecondPlan />{" "}
+            </div>
+          )}
+          {selectedThirdPlan && (
+            <div style={selectedThirdPlan ? mountedStyle : unmountedStyle}>
+              <ThirdPlan />{" "}
+            </div>
+          )}
 
+          {selectedPlan && (
+            <div style={selectedPlan ? mountedStyle : unmountedStyle}>
               <div
+                onClick={handleFirstPlan}
+                className={classes.firstPlan}
                 style={{
-                  display: "flex",
-                  marginTop: "-1.7rem",
-                  marginBottom: "-0.9rem",
+                  // display: "flex",
+                  // background: firstPlanBackground,
+                  background: firstPlanBackground.background,
+                  color: firstPlanBackground.color,
                 }}
               >
-                <div style={{ float: "left" }}>
-                  <h2>$7.58 USD</h2>
-                  <p className={classes.monthTxt}>/MONTH</p>
+                <div
+                  style={{
+                    display: "flex",
+                    marginTop: "-10px",
+                  }}
+                >
+                  <StarRateIcon className={classes.startIcon} />
+                  <p>BEST VALUE</p>
                 </div>
 
-                <div className={classes.yearDiv}>
-                  <h2
-                    className={classes.yearTxt}
-                    style={{ color: firstPlanBackground.color }}
-                  >
-                    Yearly
-                  </h2>
-                  <p style={{ marginTop: "-1.4rem" }}>
-                    $90.99 USD Billed Yearly
-                  </p>
+                <div
+                  style={{
+                    display: "flex",
+                    marginTop: "-1.7rem",
+                    marginBottom: "-0.9rem",
+                  }}
+                >
+                  <div style={{ float: "left" }}>
+                    <h2>$7.58 USD</h2>
+                    <p className={classes.monthTxt}>/MONTH</p>
+                  </div>
+
+                  <div className={classes.yearDiv}>
+                    <h2
+                      className={classes.yearTxt}
+                      style={{ color: firstPlanBackground.color }}
+                    >
+                      Yearly
+                    </h2>
+                    <p style={{ marginTop: "-1.4rem" }}>
+                      $90.99 USD Billed Yearly
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
           {expanded && (
             <div
-              style={
-                {
-                  // float: "left",
-                }
-              }
+              style={expanded ? mountedStyle : unmountedStyle}
               onClick={handleSecondtPlan}
             >
               <div
@@ -360,11 +394,7 @@ function Planindex() {
 
           {expanded && (
             <div
-              style={
-                {
-                  // float: "left",
-                }
-              }
+              style={expanded ? mountedStyle : unmountedStyle}
               onClick={handleThirdPlan}
             >
               <div
@@ -417,8 +447,8 @@ export default Planindex;
 function FirstPlan() {
   const classes = useStyles();
   const [firstPlanBackground, seTfirstPlanBackground] = useState({
-    background: "",
-    color: "",
+    background: "#00C4E8",
+    color: "#fff",
   });
 
   const handleFirstPlan = () => {
@@ -438,7 +468,7 @@ function FirstPlan() {
   return (
     <div>
       <div
-        onClick={handleFirstPlan}
+        // onClick={handleFirstPlan}
         className={classes.firstPlan}
         style={{
           // display: "flex",
@@ -477,6 +507,116 @@ function FirstPlan() {
               Yearly
             </h2>
             <p style={{ marginTop: "-1.4rem" }}>$90.99 USD Billed Yearly</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SecondPlan() {
+  const classes = useStyles();
+  const [secondPlanBackground, seTsecondPlanBackground] = useState({
+    background: "#00C4E8",
+    color: "#fff",
+  });
+
+  return (
+    <div
+      style={
+        {
+          // float: "left",
+        }
+      }
+      // onClick={handleSecondtPlan}
+    >
+      <div
+        className={classes.secondPlan}
+        style={{
+          background: secondPlanBackground.background,
+          color: secondPlanBackground.color,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            marginTop: "-10px",
+          }}
+        >
+          <StarRateIcon className={classes.startIcon} />
+          <p>MOST POPULAR</p>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            marginTop: "-1.7rem",
+            marginBottom: "-0.9rem",
+          }}
+        >
+          <div style={{ marginLeft: "-2.9px" }}>
+            <h2>$12.33 USD</h2>
+            <p className={classes.monthTxt}>/MONTH</p>
+          </div>
+
+          <div className={classes.quarterDiv}>
+            <h2
+              className={classes.quarterTxt}
+              style={{ color: secondPlanBackground.color }}
+            >
+              QUARTERLY
+            </h2>
+            <p style={{ marginTop: "-1.3rem" }}>$36.99 USD Billed Quarterly</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ThirdPlan() {
+  const classes = useStyles();
+  const [thirdPlanBackground, seTthirdPlanBackground] = useState({
+    background: "#00C4E8",
+    color: "#fff",
+  });
+
+  return (
+    <div
+      style={
+        {
+          // float: "left",
+        }
+      }
+      // onClick={handleThirdPlan}
+    >
+      <div
+        className={classes.secondPlan}
+        style={{
+          background: thirdPlanBackground.background,
+          color: thirdPlanBackground.color,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            marginTop: "-1.7rem",
+            marginBottom: "-0.9rem",
+          }}
+        >
+          <div style={{ marginLeft: "-2.9px", marginTop: "10px" }}>
+            <h2>$14.99 USD</h2>
+            <p className={classes.monthTxt}>/MONTH</p>
+          </div>
+
+          <div className={classes.quarterDiv} style={{ marginTop: "10px" }}>
+            <h2
+              className={classes.quarterTxt}
+              style={{ color: thirdPlanBackground.color }}
+            >
+              MONTHLY
+            </h2>
+            <p style={{ marginTop: "-1.3rem" }}>$14.99 USD Billed Monthly</p>
           </div>
         </div>
       </div>
