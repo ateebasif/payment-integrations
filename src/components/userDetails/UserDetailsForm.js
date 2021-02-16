@@ -88,11 +88,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function UserDetailsForm() {
+function UserDetailsForm({ isPlanSelected }) {
+  console.log("isPlanSelected", isPlanSelected);
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const handleOnclick = () => {
-    setExpanded(!expanded);
+    if (isPlanSelected) {
+      setExpanded(!expanded);
+    }
   };
 
   return (

@@ -7,9 +7,65 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 // div styled containers for cardElement
 import { CardElementContainer, Row } from "./DivCardContainers";
 
-export default function CardInputForm() {
+import {
+  // Card,
+  makeStyles,
+  // Typography,
+  Button,
+  // Grid,
+  // Divider,
+  // Box,
+} from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => ({
+  payBtn: {
+    marginTop: "1.5rem",
+    // marginRight: "1.5rem",
+    marginLeft: "6rem",
+    background: "linear-gradient(#42ADD5, #77D6EC)",
+    borderRadius: 26,
+    color: "#fff",
+    boxShadow: "0 5px 25px rgba(66, 173, 213, 0.25)",
+    padding: 10,
+    paddingTop: 12,
+    paddingBottom: 12,
+    width: 100,
+    [theme.breakpoints.down("md")]: {
+      marginLeft: "12rem",
+    },
+    [theme.breakpoints.down("sm")]: {},
+  },
+  processingBtn: {
+    marginTop: "1.5rem",
+    // marginRight: "1.5rem",
+    marginLeft: "5rem",
+    // background: "linear-gradient(#42ADD5, #77D6EC)",
+    background: "linear-gradient(#FBD786,#f7797d)",
+    borderRadius: 26,
+    color: "#fff",
+    // color: "red",
+    boxShadow: "0 5px 25px rgba(66, 173, 213, 0.25)",
+    padding: 10,
+    paddingTop: 12,
+    paddingBottom: 12,
+    width: 150,
+    [theme.breakpoints.down("md")]: {
+      marginLeft: "12rem",
+    },
+    [theme.breakpoints.down("sm")]: {},
+  },
+}));
+
+export default function CardInputForm({
+  selectedPlanPrice,
+  setIsPaymentSuccessfull,
+}) {
+  const classes = useStyles();
+
   const [isProcessing, setProcessingTo] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
+
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   const price = 2;
 
@@ -22,6 +78,7 @@ export default function CardInputForm() {
 
   const handleSUbmit = async (e) => {
     e.preventDefault();
+    console.log("submit clicked");
 
     const billing_details = {
       name: "some",
@@ -87,6 +144,8 @@ export default function CardInputForm() {
       setProcessingTo(false);
 
       alert("success");
+      setPaymentSuccess(true);
+      setIsPaymentSuccessfull(true);
     } catch (err) {
       setCheckoutError(err.message);
     }
@@ -120,6 +179,11 @@ export default function CardInputForm() {
 
   return (
     <div>
+      {paymentSuccess && (
+        <h4 style={{ color: "green", textAlign: "center" }}>
+          Payment SuccessFull
+        </h4>
+      )}
       <form onSubmit={handleSUbmit}>
         <Row>
           <CardElementContainer>
@@ -134,9 +198,13 @@ export default function CardInputForm() {
         ) : (
           <p style={{ color: "red" }}>{checkoutError}</p>
         )}
-        <button disabled={isProcessing}>
-          {isProcessing ? "Processing...." : `Pay $${price}`}
-        </button>
+        <Button
+          className={isProcessing ? classes.processingBtn : classes.payBtn}
+          onClick={handleSUbmit}
+          disabled={isProcessing}
+        >
+          {isProcessing ? "Processing...." : `Pay $${selectedPlanPrice}`}
+        </Button>
       </form>
     </div>
   );

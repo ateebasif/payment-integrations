@@ -124,9 +124,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Planindex() {
+function Planindex({ setIsPlanSelected, setSelectedPlanPrice }) {
   const classes = useStyles();
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
   const [selectedFirstPlan, setSelectedFirstPlan] = useState(false);
   const [selectedSecondPlan, setSelectedSecondPlan] = useState(false);
@@ -160,6 +160,8 @@ function Planindex() {
   };
 
   const handleFirstPlan = () => {
+    setIsPlanSelected(true);
+    setSelectedPlanPrice(90.99);
     console.log("clicked first plan");
     const clickStyle = "#00C4E8";
     // seTfirstPlanBackground("#00C4E8");
@@ -182,7 +184,10 @@ function Planindex() {
   };
 
   const handleSecondtPlan = () => {
-    console.log("clicked first plan");
+    setIsPlanSelected(true);
+    setSelectedPlanPrice(36.99);
+
+    console.log("clicked second plan");
 
     seTfirstPlanBackground({
       background: "",
@@ -204,6 +209,9 @@ function Planindex() {
   };
 
   const handleThirdPlan = () => {
+    setIsPlanSelected(true);
+    setSelectedPlanPrice(14.99);
+    console.log("clicked third plan");
     seTfirstPlanBackground({
       background: "",
       color: "",

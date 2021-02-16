@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // import "./App.css";
 import PayPalBtn from "./PayPalBtn";
 
-function PaypalSubscription() {
+function PaypalSubscription({ setIsPaymentSuccessfull }) {
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState(null);
   const [cancel, setCancel] = useState(false);
@@ -29,6 +29,7 @@ function PaypalSubscription() {
     setPaidFor(true);
     console.log("Payapl approved");
     console.log(data.subscriptionID);
+    setIsPaymentSuccessfull(true);
   };
 
   if (paidFor) {
