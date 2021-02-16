@@ -8,12 +8,17 @@ import PaypalPayment from "./components/paypaylPayment";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
+import { useAuthState } from "react-firebase-hooks/auth";
+import firebase from "./components/firebase";
+
+import UserProfile from "./components/userDetails/UserProfile";
+
 import CardContent from "@material-ui/core/CardContent";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
-
+import Login from "./components/userDetails/LoginForm";
 import {
   Card,
   makeStyles,
@@ -100,6 +105,35 @@ const stripePromise = loadStripe(process.env.REACT_APP_PUBLISHABLE_KEY);
 function App() {
   const classes = useStyles();
 
+  const [loginState, setLoginState] = useState(false);
+  const [signUpState, setSignUpState] = useState(false);
+
+  // Fire base
+  const auth = firebase.auth();
+  const [user] = useAuthState(auth);
+
+  console.log("user", user);
+
+  const handleLoginView = () => {
+    console.log("handleView");
+
+    if (signUpState) {
+      return <UserDetailsForm />;
+    }
+    return (
+      <Login setLoginState={setLoginState} setSignUpState={setSignUpState} />
+    );
+  };
+
+  const handleUserDetailsView = () => {
+    if (user) {
+      // setLoginState(false);
+      return <UserProfile user={user} />;
+    }
+
+    return <UserDetailsForm />;
+  };
+
   // console.log(".env", process.env.REACT_APP_PUBLISHABLE_KEY);
   return (
     <div style={{ paddingTop: "2rem" }}>
@@ -125,11 +159,18 @@ function App() {
                 </div>
               </div>
 
-              {/* Discount */}
+              {/* ENd Discount */}
+
+              {/* User Profile */}
+              {/*user && <UserProfile user={user} />*/}
+              {/* End User Profile */}
 
               {/* User Details */}
-              <UserDetailsForm />
-              {/* User Details */}
+              {/*loginState ? <Login /> : <UserDetailsForm /> */}
+
+              {loginState ? handleLoginView() : handleUserDetailsView()}
+
+              {/* End User Details */}
 
               <h2 style={{ color: "#f8006f" }}>Select Your Payment Method</h2>
             </div>
@@ -142,7 +183,24 @@ function App() {
           <div style={{ height: "97.3vh" }}>
             <div style={{ float: "right" }}>
               <Button className={classes.homeBtn}> Home</Button>
-              <Button className={classes.loginBtn}>Login</Button>
+              {user ? (
+                <Button
+                  className={classes.loginBtn}
+                  onClick={() => auth.signOut()}
+                >
+                  SignOut
+                </Button>
+              ) : (
+                <Button
+                  className={classes.loginBtn}
+                  onClick={() => {
+                    setLoginState(true);
+                    setSignUpState(false);
+                  }}
+                >
+                  Login
+                </Button>
+              )}
             </div>
           </div>
         </Grid>

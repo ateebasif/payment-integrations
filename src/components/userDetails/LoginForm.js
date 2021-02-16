@@ -2,36 +2,26 @@ import React, { useState } from "react";
 // import { Formik } from "formik";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import DatePick from "./DatePicker";
-import IconButton from "@material-ui/core/IconButton";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
+
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import LockIcon from "@material-ui/icons/Lock";
-import { create } from "jss";
-import rtl from "jss-rtl";
-import { StylesProvider, jssPreset } from "@material-ui/core/styles";
-
 import firebase from "../firebase";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import Login from "./LoginForm";
-
-// Configure JSS
 
 import {
-  Card,
+  //   Card,
   makeStyles,
-  Typography,
+  //   Typography,
   TextField,
   Button,
   FormHelperText,
   Box,
   Grid,
-  Divider,
+  //   Divider,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -88,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function UserDetailsForm() {
+function LoginForm({ setLoginState, setSignUpState }) {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const handleOnclick = () => {
@@ -114,7 +104,7 @@ function UserDetailsForm() {
         >
           <div style={{ display: "flex" }}>
             <CheckCircleOutlineIcon className={classes.tickIcon} />
-            <h2 className={classes.planTxt}>Your Details</h2>
+            <h2 className={classes.planTxt}>Login</h2>
           </div>
           <div className={classes.expandBtn}>
             <IconButton
@@ -127,7 +117,6 @@ function UserDetailsForm() {
             </IconButton>
           </div>
         </div>
-        {/*<Login />*/}
 
         {/* Form */}
         {expanded && (
@@ -144,13 +133,13 @@ function UserDetailsForm() {
                 submit: null,
               }}
               validationSchema={Yup.object().shape({
-                // email: Yup.string()
-                //   .email("Must be a valid email")
-                //   .max(255)
-                //   .required("Email is required"),
-                // password: Yup.string()
-                //   .max(255)
-                //   .required("Password is required"),
+                email: Yup.string()
+                  .email("Must be a valid email")
+                  .max(255)
+                  .required("Email is required"),
+                password: Yup.string()
+                  .max(255)
+                  .required("Password is required"),
               })}
               onSubmit={async (
                 values,
@@ -158,29 +147,15 @@ function UserDetailsForm() {
               ) => {
                 try {
                   const firestore = firebase.firestore();
-                  const auth = firebase.auth();
-                  const userProfileRef = firestore.collection("users");
+                  //   const auth = firebase.auth();
+                  //   const userProfileRef = firestore.collection("users");
 
                   await firebase
                     .auth()
-                    .createUserWithEmailAndPassword(
-                      values.email,
-                      values.password
-                    )
+                    .signInWithEmailAndPassword(values.email, values.password)
                     .then(async () => {
-                      console.log("user created");
-
-                      const { uid } = auth.currentUser;
-
-                      await userProfileRef
-                        .add({
-                          firstName: values.firstName,
-                          lastName: values.lastName,
-                          date: values.date,
-                          email: values.email,
-                          uid,
-                        })
-                        .then(() => console.log("User Profile Creared"));
+                      console.log("user Signed IN");
+                      setLoginState(false);
                     });
                   console.log("submit clicked", values);
                 } catch (err) {
@@ -203,92 +178,6 @@ function UserDetailsForm() {
                   //   className={clsx(classes.root, className)}
                   //   {...rest}
                 >
-                  {/* First Name */}
-                  <TextField
-                    error={Boolean(touched.firstName && errors.firstName)}
-                    fullWidth
-                    // width="60%"
-                    size="small"
-                    helperText={touched.firstName && errors.firstName}
-                    autoComplete="off"
-                    // label="Email Address"
-                    placeholder="First Name"
-                    margin="normal"
-                    name="firstName"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    type="text"
-                    value={values.firstName}
-                    variant="outlined"
-                    InputProps={{
-                      className: classes.textFieldInput,
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <PersonOutlineIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  {/* End First Name */}
-
-                  {/* Last Name */}
-                  <TextField
-                    error={Boolean(touched.lastName && errors.lastName)}
-                    fullWidth
-                    // width="60%"
-                    size="small"
-                    helperText={touched.lastName && errors.lastName}
-                    autoComplete="off"
-                    // label="Email Address"
-                    placeholder="Last Name"
-                    margin="normal"
-                    name="lastName"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    type="text"
-                    value={values.lastName}
-                    variant="outlined"
-                    InputProps={{
-                      className: classes.textFieldInput,
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <PersonOutlineIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  {/* End Last Name */}
-
-                  {/* Date  */}
-                  <TextField
-                    error={Boolean(touched.date && errors.date)}
-                    fullWidth
-                    // width="60%"
-                    size="small"
-                    helperText={touched.date && errors.date}
-                    autoComplete="off"
-                    // label="Email Address"
-                    placeholder="Last Name"
-                    margin="normal"
-                    name="date"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    type="date"
-                    value={values.date}
-                    variant="outlined"
-                    InputProps={{
-                      className: classes.textFieldInput,
-                      position: "relative",
-
-                      //   startAdornment: (
-                      //     <InputAdornment position="start">
-                      //       <PersonOutlineIcon />
-                      //     </InputAdornment>
-                      //   ),
-                    }}
-                  />
-                  {/* End Date */}
-
                   {/* Email */}
                   <TextField
                     error={Boolean(touched.email && errors.email)}
@@ -358,8 +247,14 @@ function UserDetailsForm() {
                       type="submit"
                       variant="contained"
                     >
-                      Next
+                      Login
                     </Button>
+                    <p
+                      style={{ cursor: "pointer", color: "#42ADD5" }}
+                      onClick={() => setSignUpState(true)}
+                    >
+                      or create an account?
+                    </p>
                   </Box>
                 </form>
               )}
@@ -374,4 +269,4 @@ function UserDetailsForm() {
   );
 }
 
-export default UserDetailsForm;
+export default LoginForm;
