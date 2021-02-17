@@ -162,7 +162,7 @@ function UserDetailsForm({ isPlanSelected }) {
                 try {
                   const firestore = firebase.firestore();
                   const auth = firebase.auth();
-                  const userProfileRef = firestore.collection("users");
+                  const userProfileRef = firestore.collection("usersProfile");
 
                   await firebase
                     .auth()

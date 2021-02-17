@@ -97,7 +97,8 @@ export default function CardInputForm({
     try {
       // 1 first get client secret
       const { data: clientSecret } = await axios.post(
-        "http://localhost:4000/getIntent",
+        // "http://localhost:4000/getIntent",
+        " https://us-central1-reset-fitness-app.cloudfunctions.net/app/getIntent",
         {
           amount: price * 100,
         }

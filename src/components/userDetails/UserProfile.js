@@ -10,7 +10,7 @@ function UserProfile({ user, setLoginState }) {
   let userProfileRef;
   if (user) {
     userProfileRef = firestore
-      .collection("users")
+      .collection("usersProfile")
       .where("uid", "==", auth.currentUser.uid);
   }
 

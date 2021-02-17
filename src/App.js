@@ -5,6 +5,7 @@ import StripePayment from "./components/stripePayment/index";
 import PaypalPayment from "./components/paypaylPayment";
 // import SelectPaymentMethod from "./components/selectPaymentMethod/SelectPaymentMethod";
 // stripe imports
+import BackgroundImg from "./img.jpg";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
@@ -74,14 +75,17 @@ const useStyles = makeStyles((theme) => ({
   },
 
   rightSide: {
-    backgroundImage: `url(https:static-01.daraz.pk/p/5866ec828fccbea4ac5b214f673e29f4.jpg)`,
+    // backgroundImage: `url(https:static-01.daraz.pk/p/5866ec828fccbea4ac5b214f673e29f4.jpg)`,
+    backgroundImage: `url(${BackgroundImg})`,
     backgroundSize: "cover",
     borderRadius: "40px 0px 0px 40px",
     backgroundRepeat: "noRepeat",
     marginTop: "-2rem",
   },
   upSide: {
-    backgroundImage: `url(https:static-01.daraz.pk/p/5866ec828fccbea4ac5b214f673e29f4.jpg)`,
+    // backgroundImage: `url(https:static-01.daraz.pk/p/5866ec828fccbea4ac5b214f673e29f4.jpg)`,
+    backgroundImage: `url(${BackgroundImg})`,
+
     backgroundSize: "cover",
     borderRadius: "0px 0px 40px 40px",
     backgroundRepeat: "noRepeat",
@@ -184,7 +188,7 @@ function App() {
   let userProfileRef;
   if (user) {
     userProfileRef = firestore
-      .collection("users")
+      .collection("usersProfile")
       .where("uid", "==", auth.currentUser.uid);
   }
   const [userData] = useCollectionData(userProfileRef);
