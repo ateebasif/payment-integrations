@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import IconButton from "@material-ui/core/IconButton";
-
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { makeStyles } from "@material-ui/core";
+import DoneIcon from "@material-ui/icons/Done";
 
 const useStyles = makeStyles((theme) => ({
   headingTxt: {
@@ -75,6 +76,25 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "-27px",
     marginLeft: "5rem",
   },
+  iconOuterDiv: {
+    display: "flex",
+    paddingLeft: "2rem",
+    marginBottom: "-2rem",
+  },
+  iconDiv: {
+    background: "#fd7661",
+    borderRadius: 100,
+    width: 20,
+    height: 20,
+    marginTop: "1.3rem",
+    marginRight: "-1rem",
+  },
+  tickIcon: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: 20,
+    marginTop: "3px",
+  },
   //   Selected Left Box
   selectedRightBox: {
     border: "1.5px solid #fff",
@@ -98,27 +118,35 @@ function Plansindex() {
 
   const selectedLeftBox = () => {
     return (
-      <div className={classes.selectedLeftBox}>
-        <div>
-          <h3 style={{ color: "#fff" }}>6 MONTHS APP ACCESS</h3>
-          <div style={{ display: "flex" }}>
-            <h5 style={{ color: "#fff", marginTop: "-15px" }}>
-              One-time Payment. No recurring charges.
-            </h5>
-            {/* expand button */}
-            <div className={classes.expandBtn}>
-              <IconButton
-                style={{ color: "#fff" }}
-                aria-label="upload picture"
-                component="span"
-                onClick={() => setIsLeftSelected(false)}
-              >
-                <ExpandMoreIcon />
-              </IconButton>
-            </div>
-            {/* end expand button */}
+      <div>
+        <div className={classes.iconOuterDiv}>
+          <div className={classes.iconDiv}>
+            <DoneIcon className={classes.tickIcon} />
           </div>
-          <h1 style={{ color: "#fff", marginTop: "-14px" }}>$97.00</h1>
+          <h3 className={classes.headingTxt}> Select Your Plan</h3>
+        </div>
+        <div className={classes.selectedLeftBox}>
+          <div>
+            <h3 style={{ color: "#fff" }}>6 MONTHS APP ACCESS</h3>
+            <div style={{ display: "flex" }}>
+              <h5 style={{ color: "#fff", marginTop: "-15px" }}>
+                One-time Payment. No recurring charges.
+              </h5>
+              {/* expand button */}
+              <div className={classes.expandBtn}>
+                <IconButton
+                  style={{ color: "#fff" }}
+                  aria-label="upload picture"
+                  component="span"
+                  onClick={() => setIsLeftSelected(false)}
+                >
+                  <ExpandMoreIcon />
+                </IconButton>
+              </div>
+              {/* end expand button */}
+            </div>
+            <h1 style={{ color: "#fff", marginTop: "-14px" }}>$97.00</h1>
+          </div>
         </div>
       </div>
     );
@@ -127,27 +155,35 @@ function Plansindex() {
   // selected right box
   const selectedRightBox = () => {
     return (
-      <div className={classes.selectedRightBox}>
-        <div>
-          <h3 style={{ color: "#ff998a" }}>6 MONTHS APP ACCESS</h3>
-          <div style={{ display: "flex" }}>
-            <h5 style={{ color: "#ff998a", marginTop: "-15px" }}>
-              One-time Payment. No recurring charges.
-            </h5>
-            {/* expand button */}
-            <div className={classes.expandBtn}>
-              <IconButton
-                style={{ color: "#ff998a" }}
-                aria-label="upload picture"
-                component="span"
-                onClick={() => setIsRightSelected(false)}
-              >
-                <ExpandMoreIcon />
-              </IconButton>
-            </div>
-            {/* end expand button */}
+      <div>
+        <div className={classes.iconOuterDiv}>
+          <div className={classes.iconDiv}>
+            <DoneIcon className={classes.tickIcon} />
           </div>
-          <h1 style={{ color: "#ff998a", marginTop: "-14px" }}>$149.00</h1>
+          <h3 className={classes.headingTxt}> Select Your Plan</h3>
+        </div>
+        <div className={classes.selectedRightBox}>
+          <div>
+            <h3 style={{ color: "#ff998a" }}>6 MONTHS APP ACCESS</h3>
+            <div style={{ display: "flex" }}>
+              <h5 style={{ color: "#ff998a", marginTop: "-15px" }}>
+                One-time Payment. No recurring charges.
+              </h5>
+              {/* expand button */}
+              <div className={classes.expandBtn}>
+                <IconButton
+                  style={{ color: "#ff998a" }}
+                  aria-label="upload picture"
+                  component="span"
+                  onClick={() => setIsRightSelected(false)}
+                >
+                  <ExpandMoreIcon />
+                </IconButton>
+              </div>
+              {/* end expand button */}
+            </div>
+            <h1 style={{ color: "#ff998a", marginTop: "-14px" }}>$149.00</h1>
+          </div>
         </div>
       </div>
     );
@@ -165,7 +201,6 @@ function Plansindex() {
 
   return (
     <div>
-      {" "}
       <h3 className={classes.headingTxt}> Select Your Plan</h3>
       {/* Box Div */}
       <div className={classes.boxesDiv}>
