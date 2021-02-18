@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Plans from "./components/plan";
+import Plan from "./components/plan";
+import Plans from "./components/plans/index";
 import UserDetailsForm from "./components/userDetails/UserDetailsForm";
 import StripePayment from "./components/stripePayment/index";
 import PaypalPayment from "./components/paypaylPayment";
@@ -81,6 +82,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "40px 0px 0px 40px",
     backgroundRepeat: "noRepeat",
     marginTop: "-2rem",
+  },
+  leftSide: {
+    background: "#ff998a",
   },
   upSide: {
     // backgroundImage: `url(https:static-01.daraz.pk/p/5866ec828fccbea4ac5b214f673e29f4.jpg)`,
@@ -203,51 +207,27 @@ function App() {
   };
 
   return (
-    <div style={{ paddingTop: "2rem" }}>
+    <div style={{ paddingTop: "2rem", background: "#ff998a" }}>
       <Grid container>
-        {width <= 960 && (
-          <Grid item xs={12} sm={12} md={8} className={classes.upSide}>
-            <div style={{ height: "26.5vh" }}>
-              <div style={{ float: "right" }}>
-                <Button className={classes.homeBtn}> Home</Button>
-                {user ? (
-                  <Button
-                    className={classes.loginBtn}
-                    onClick={() => auth.signOut()}
-                  >
-                    SignOut
-                  </Button>
-                ) : (
-                  <Button
-                    className={classes.loginBtn}
-                    onClick={() => {
-                      setLoginState(true);
-                      setSignUpState(false);
-                    }}
-                  >
-                    Login
-                  </Button>
-                )}
-              </div>
-            </div>
-          </Grid>
-        )}
-
         {/* Left Side view */}
 
-        <Grid item xs={12} sm={12} md={4}>
+        <Grid item xs={12} sm={12} md={4} className={classes.leftSide}>
           <div
-            style={{ overflow: "scroll", height: "93vh", maxHeight: "97vh" }}
+            style={{ overflow: "scroll", height: "97vh", maxHeight: "97vh" }}
           >
             {isPaymentSuccessfull ? (
               paymentSuccessfullView()
             ) : (
               <div>
                 <div style={{ textAlign: "center" }}>
-                  <Plans
+                  {/*     <Plans
                     setIsPlanSelected={setIsPlanSelected}
                     setSelectedPlanPrice={setSelectedPlanPrice}
-                  />
+                  /> */}
+
+                  {/* Plans */}
+                  <Plans />
+                  {/* End Plans */}
 
                   {/* Discount Field */}
                   <div className={classes.discount}>
