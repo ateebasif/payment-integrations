@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-// import { Formik } from "formik";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import IconButton from "@material-ui/core/IconButton";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
@@ -12,19 +10,15 @@ import UserProfile from "./UserProfile";
 import firebase from "../firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import Login from "./LoginForm";
-
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import {
-  Card,
   makeStyles,
-  Typography,
   TextField,
   Button,
   FormHelperText,
   Box,
   Grid,
-  Divider,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -115,18 +109,17 @@ const useStyles = makeStyles((theme) => ({
   // tick Circel
 }));
 
-function UserDetailsForm({ isPlanSelected }) {
-  console.log("isPlanSelected", isPlanSelected);
+function UserDetailsForm({
+  firstName,
+  lastName,
+  email,
+  setUpdateInfo,
+  userDocId,
+}) {
+  //   console.log("isPlanSelected", isPlanSelected);
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
-
   const [isAccountCreated, setIsAccountCreated] = useState(false);
-
-  const handleOnclick = () => {
-    if (isPlanSelected) {
-      setExpanded(!expanded);
-    }
-  };
 
   const auth = firebase.auth();
   const [user] = useAuthState(auth);
@@ -143,7 +136,7 @@ function UserDetailsForm({ isPlanSelected }) {
   }
   const [userData] = useCollectionData(userProfileRef);
 
-  console.log("user Data in user Detail appppppp", userData);
+  console.log("user Data in updateInfo", userData);
 
   console.log("user", user);
 
@@ -153,7 +146,7 @@ function UserDetailsForm({ isPlanSelected }) {
         <div className={classes.iconDiv}>
           <DoneIcon className={classes.tickIcon} />
         </div>
-        <h3 className={classes.headingTxt}> Create Your Account</h3>
+        <h3 className={classes.headingTxt}> Your Information Updated</h3>
       </div>
     );
   };
@@ -162,7 +155,7 @@ function UserDetailsForm({ isPlanSelected }) {
     <div style={{ marginTop: "2rem" }}>
       {/* Create Account Text */}
       <div className={classes.createAccount}>
-        {isAccountCreated ? tickCircle() : <h3>Create Your Account</h3>}
+        {isAccountCreated ? tickCircle() : <h3>Update Your Information</h3>}
       </div>
       {/* Create Account Text */}
 
@@ -182,9 +175,9 @@ function UserDetailsForm({ isPlanSelected }) {
             {/* form start */}
             <Formik
               initialValues={{
-                firstName: "",
-                lastName: "",
-                email: "",
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
                 password: "",
                 submit: null,
               }}
@@ -204,45 +197,29 @@ function UserDetailsForm({ isPlanSelected }) {
                 try {
                   console.log("submit pressesd");
                   const firestore = firebase.firestore();
-                  const auth = firebase.auth();
-                  const userProfileRef = firestore.collection("usersProfile");
+                  const userProfileRef = firestore
+                    .collection("usersProfile")
+                    .doc(userDocId);
 
-                  await firebase
-                    .auth()
-                    .createUserWithEmailAndPassword(
-                      values.email,
-                      values.password
-                    )
-                    .then(async () => {
-                      console.log("user created");
-                      // setIsAccountCreated(true);
+                  await userProfileRef
+                    .update({
+                      firstName: values.firstName,
+                      lastName: values.lastName,
+                      email: values.email,
+                    })
+                    .then(() => {
+                      console.log("profile updated");
 
-                      const { uid } = auth.currentUser;
+                      user.updateEmail(values.email).then(() => {
+                        console.log("Email updated");
+                        setUpdateInfo(false);
 
-                      // firebase
-                      //   .firestore()
-                      //   .collection("usersProfile")
-                      //   .set({
-                      //     uid,
-                      //     firstName: values.firstName,
-                      //     lastName: values.lastName,
-                      //     date: values.date,
-                      //     email: values.email,
-                      //   })
-                      //   .then(() => console.log("user profile created"));
-
-                      await userProfileRef
-                        .add({
-                          firstName: values.firstName,
-                          lastName: values.lastName,
-                          email: values.email,
-                          uid,
-                        })
-                        .then(() => {
-                          console.log("User Profile Creared");
-                          setIsAccountCreated(true);
-                        });
+                        // user.updatePassword(values.password).then(() => {
+                        //   console.log("password Updated");
+                        // });
+                      });
                     });
+
                   console.log("submit clicked", values);
                 } catch (err) {
                   console.error(err);
@@ -389,8 +366,19 @@ function UserDetailsForm({ isPlanSelected }) {
                       type="submit"
                       variant="contained"
                     >
-                      Create New Account
+                      Update Info
                     </Button>
+                    <h5
+                      style={{
+                        color: "#fe7565",
+                        cursor: "pointer",
+                        marginBottom: "-3px",
+                        marginTop: "-3px",
+                      }}
+                      onClick={() => setUpdateInfo(false)}
+                    >
+                      Cancel Update
+                    </h5>
                   </Box>
                 </form>
               )}

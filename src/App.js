@@ -148,10 +148,10 @@ function App() {
 
   const [height, width] = WindowSize();
 
-  console.log("height", height);
-  console.log("width", width);
+  // console.log("height", height);
+  // console.log("width", width);
 
-  const [isPlanSelected, setIsPlanSelected] = useState(false);
+  const [isPlanSelected, setIsPlanSelected] = useState(true);
   const [selectedPlanPrice, setSelectedPlanPrice] = useState(0);
 
   const [isPaymentSuccessfull, setIsPaymentSuccessfull] = useState(false);
@@ -197,6 +197,8 @@ function App() {
   }
   const [userData] = useCollectionData(userProfileRef);
 
+  console.log("user Data in appppppp", userData);
+
   const paymentSuccessfullView = () => {
     return (
       <div className={classes.paymentSuccessDiv}>
@@ -230,7 +232,7 @@ function App() {
                   {/* End Plans */}
 
                   {/* Discount Field */}
-                  <div className={classes.discount}>
+                  {/*    <div className={classes.discount}>
                     <p>or enter your discount code here:</p>
 
                     <div className={classes.formDiv}>
@@ -241,9 +243,8 @@ function App() {
                         style={{}}
                       />
                       <Button className={classes.apllyBtn}>Apply</Button>
-                      {/*<p className={classes.apllyBtn}>Apply</p>*/}
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* ENd Discount Field */}
 
