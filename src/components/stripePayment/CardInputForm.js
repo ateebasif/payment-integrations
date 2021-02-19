@@ -19,17 +19,19 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   payBtn: {
-    marginTop: "1.5rem",
+    // marginTop: "1rem",
+    width: "95%",
     // marginRight: "1.5rem",
-    marginLeft: "6rem",
-    background: "linear-gradient(#42ADD5, #77D6EC)",
+    // marginLeft: "6rem",
+    // background: "linear-gradient(#42ADD5, #77D6EC)",
+    background: "#fe7565",
     borderRadius: 26,
     color: "#fff",
     boxShadow: "0 5px 25px rgba(66, 173, 213, 0.25)",
     padding: 10,
     paddingTop: 12,
     paddingBottom: 12,
-    width: 100,
+    // width: 100,
     [theme.breakpoints.down("md")]: {
       marginLeft: "12rem",
     },
@@ -204,7 +206,7 @@ export default function CardInputForm({
           onClick={handleSUbmit}
           disabled={isProcessing}
         >
-          {isProcessing ? "Processing...." : `Pay $${selectedPlanPrice}`}
+          {isProcessing ? "Processing...." : `Process Credit Card`}
         </Button>
       </form>
     </div>

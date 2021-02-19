@@ -25,6 +25,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import DoneIcon from "@material-ui/icons/Done";
+
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 
@@ -41,9 +43,16 @@ import {
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: "100%",
-    width: "72%",
-    marginLeft: "2rem",
+    width: "81%",
+    marginLeft: "1rem",
+    borderRadius: 5,
     marginTop: "2rem",
+    background: "#fff",
+    padding: 5,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 20,
+
     [theme.breakpoints.down("md")]: {
       maxWidth: "100%",
       width: "80%",
@@ -138,6 +147,40 @@ const useStyles = makeStyles((theme) => ({
   paymentSuccessDiv: {
     textAlign: "center",
   },
+  // Payment Method
+  paymentHeading: {
+    color: "#fff",
+    marginLeft: "2.5rem",
+    marginBottom: "-0.6em",
+  },
+  // Payment Method
+
+  // icon classes
+  iconOuterDiv: {
+    display: "flex",
+    paddingLeft: "2rem",
+    marginBottom: "-2rem",
+  },
+  iconDiv: {
+    background: "#fd7661",
+    borderRadius: 100,
+    width: 20,
+    height: 20,
+    marginTop: "1.3rem",
+    marginRight: "-1rem",
+  },
+  tickIcon: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: 20,
+    marginTop: "3px",
+    marginLeft: "3px",
+  },
+  headingTxt: {
+    color: "#fff",
+    marginLeft: "2rem",
+  },
+  // icon classes
 }));
 
 // stripe promise
@@ -340,78 +383,65 @@ function SelectPaymentMethod({
   };
   return (
     <div style={{ marginBottom: "4rem", marginTop: "1.5rem" }}>
-      {/* Expand area */}
-      <div style={{ display: "flex", marginBottom: "-1.2rem" }}>
-        <div style={{ display: "flex" }}>
-          <CheckCircleOutlineIcon className={classes.tickIcon} />
-          <h2 className={classes.planTxt}>Payment Details</h2>
+      {/* <h3 className={classes.paymentHeading}>Select Your Payment Method</h3> */}
+      <div className={classes.iconOuterDiv}>
+        <div className={classes.iconDiv}>
+          <DoneIcon className={classes.tickIcon} />
         </div>
-        <div className={classes.expandBtn}>
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-            onClick={handleOnclick}
-          >
-            {expanded ? <CloseIcon /> : <ExpandMoreIcon />}
-          </IconButton>
-        </div>
+        <h3 className={classes.headingTxt}> Select Your Payment Method</h3>
       </div>
-      {/* End Expand area */}
-      {expanded && (
-        <Grid
-          container
-          spacing={0}
-          direction="column"
-          alignItems="center"
-          justify="center"
-          // style={{ minHeight: "100vh" }}
-        >
-          <div className={classes.root}>
-            <FormControl component="fieldset">
-              {/*   <FormLabel component="legend">labelPlacement</FormLabel> */}
-              <RadioGroup
-                row
-                aria-label="position"
-                name="position"
-                defaultValue="top"
-                onChange={handleChange}
-              >
-                <FormControlLabel
-                  value="creditCard"
-                  control={<Radio color="primary" />}
-                  label="Credit Card"
-                  labelPlacement="end"
-                />
-                <FormControlLabel
-                  value="paypal"
-                  control={<Radio color="primary" />}
-                  label="Paypal"
-                  labelPlacement="end"
-                />
-              </RadioGroup>
-            </FormControl>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+        // style={{ minHeight: "100vh" }}
+      >
+        <div className={classes.root}>
+          <FormControl component="fieldset">
+            {/*   <FormLabel component="legend">labelPlacement</FormLabel> */}
+            <RadioGroup
+              // row
+              aria-label="position"
+              name="position"
+              defaultValue="top"
+              onChange={handleChange}
+            >
+              <FormControlLabel
+                value="creditCard"
+                control={<Radio color="primary" />}
+                label="Credit Card"
+                labelPlacement="end"
+              />
+              <FormControlLabel
+                value="paypal"
+                control={<Radio color="primary" />}
+                label="Paypal"
+                labelPlacement="end"
+              />
+            </RadioGroup>
+          </FormControl>
 
-            <br />
-            <div>
-              {pay && (
-                <PaypalPayment
+          <br />
+          <div>
+            {pay && (
+              <PaypalPayment
+                selectedPlanPrice={selectedPlanPrice}
+                setIsPaymentSuccessfull={setIsPaymentSuccessfull}
+              />
+            )}{" "}
+            {stri && (
+              <Elements stripe={stripePromise}>
+                <StripePayment
                   selectedPlanPrice={selectedPlanPrice}
                   setIsPaymentSuccessfull={setIsPaymentSuccessfull}
-                />
-              )}{" "}
-              {stri && (
-                <Elements stripe={stripePromise}>
-                  <StripePayment
-                    selectedPlanPrice={selectedPlanPrice}
-                    setIsPaymentSuccessfull={setIsPaymentSuccessfull}
-                  />{" "}
-                </Elements>
-              )}
-            </div>
+                />{" "}
+              </Elements>
+            )}
           </div>
-        </Grid>
-      )}
+        </div>
+      </Grid>
     </div>
   );
 }
